@@ -1,19 +1,30 @@
 import express from "express";
-import { engine } from "express-handlebars";
-import defaultRouter from "./routes/default.mjs";
-import searchRouter from "./routes/search.mjs";
+import bodyParser from "body-parser";
+import { create } from "express-handlebars";
+import router from "./routes/router.mjs";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.engine("handlebars", engine());
+const hbs = create({
+   helpers: {
+      encode(str) { return encodeURIComponent(str); },
+   },
+});
+
+app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 app.set("views", "./src/views");
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+
+app.use(express.json());
+app.use(express.urlencoded());
+
 app.use(express.static("./src/public"));
 
-app.use("/", defaultRouter);
-app.use("/search", searchRouter);
+app.use("/", router);
 
 app.use((req, res) => {
    res.type("text/plain");

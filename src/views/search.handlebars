@@ -1,0 +1,16 @@
+{{#if results}}
+   {{#each results}}
+      <div>
+         <form action="/lyrics" method="post">
+            <input type="hidden" name="path" id="path" value="{{this.path}}">
+            <input type="hidden" name="artist" id="artist" value="{{this.artist_names}}">
+            <input type="hidden" name="song" id="song" value="{{this.title}}">
+            <input type="hidden" name="coverArt" id="coverArt" value="{{this.header_image_url}}">
+            <button type="submit">{{this.full_title}}</button>
+         </form>
+      </div>
+   {{/each}}
+{{/if}}
+{{#unless results}}
+   <p>No results found</p>
+{{/unless}}
