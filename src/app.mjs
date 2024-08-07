@@ -17,10 +17,10 @@ app.set("view engine", "handlebars");
 app.set("views", "./src/views");
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("./src/public"));
 
