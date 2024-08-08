@@ -3,9 +3,18 @@
       <input type="hidden" name="artist" value="{{artist}}">
       <input type="hidden" name="coverArt" value="{{coverArt}}">
    {{#each lyrics}}
-      <input type="checkbox" id="{{@index}}" name="verses[]" value="{{this}}">
-      <label for="{{@index}}">{{this}}</label>
-      <br>
+      {{#if this}}
+         <input type="checkbox" id="{{@index}}" name="verses[]" value="{{this}}">
+         <label for="{{@index}}">{{this}}</label>
+         <br>
+      {{/if}}
    {{/each}}
+   <label for="backgroundColor">Background Color:</label>
+   <input type="color" id="backgroundColor" name="backgroundColor" value="#cecece">
+   <label for="whiteFont">Font Color:</label>
+   <select name="whiteFont" id="whiteFont">
+      <option value="false" selected>Black</option>
+      <option value="true">White</option>
+   </select>
    <button type="submit">Ok</button>
 </form>

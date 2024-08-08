@@ -6,13 +6,18 @@ async function controller(req, res) {
    const verses = req.body.verses;
    const coverArt = req.body.coverArt;
    const backgroundColor = req.body.backgroundColor;
-   const whiteFont = req.body.whiteFont || false;
+   const whiteFont = req.body.whiteFont;
+   let useWhiteFont = false;
+   if (whiteFont === "true") {
+      useWhiteFont = true;
+   }
 
    if (artist == undefined || song == undefined || verses.length < 1 || coverArt == undefined || backgroundColor == undefined) {
       res.send("Invalid");
+      return;
    }
 
-   const image = await generateImage(song, artist, verses, backgroundColor, coverArt, whiteFont);
+   const image = await generateImage(song, artist, verses, backgroundColor, coverArt, useWhiteFont);
    res.type("png");
    res.attachment(image);
    res.download(image);
@@ -91,7 +96,7 @@ async function generateImage(song, artist, verses, color, coverArt, white = fals
 
    image.crop(0, 0, width + padding * 3, y);
 
-   const path = "./src/public/img/" + Date.now() + ".png";
+   const path = "./cache/" + Date.now() + ".png";
    await image.writeAsync(path);
 
    return path;
