@@ -4,7 +4,10 @@ async function controller(req, res) {
    const song = req.body.song;
    const coverArt = req.body.coverArt;
 
-   if (path == undefined || artist == undefined || song == undefined || coverArt == undefined) res.send("Invalid");
+   if (path == undefined || artist == undefined || song == undefined || coverArt == undefined) {
+      res.sendStatus(400);
+      return;
+   }
 
    const url = "https://genius.com" + path;
    

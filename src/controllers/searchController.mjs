@@ -1,6 +1,6 @@
 async function controller(req, res) {
    const query = req.query.q;
-   if (query != "") {
+   if (query != undefined) {
       const results = await searchGenius(query);
       res.render("search", { results: results });
    } else {

@@ -13,7 +13,7 @@ async function controller(req, res) {
    }
 
    if (artist == undefined || song == undefined || verses.length < 1 || coverArt == undefined || backgroundColor == undefined) {
-      res.send("Invalid");
+      res.sendStatus(400);
       return;
    }
 
