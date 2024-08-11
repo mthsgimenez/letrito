@@ -54,7 +54,7 @@ async function generateImage(song, artist, verses, color, white = false) {
    const [cover, mask, boldFont, regularFont, smallFont, logo] = await Promise.all([coverPromise, maskPromise, boldFontPromise, regularFontPromise, smallFontPromise, logoPromise]);
 
    // Song title or artist name width + padding + coverArt
-   let width = Jimp.measureText(boldFont, ((artist.length >= song) ? artist : song)) + padding * 2 + coverArtSize;
+   let width = Jimp.measureText(boldFont, ((artist.length >= song.length) ? artist : song)) + padding + coverArtSize;
    let maxWidth = width - padding;
 
    // If song title / artist name is too short set width to minWidth
@@ -95,7 +95,7 @@ async function generateImage(song, artist, verses, color, white = false) {
    cover.mask(mask, 0, 0);
    image.composite(cover, padding, padding);
 
-   image.crop(0, 0, width + padding * 3, y);
+   image.crop(0, 0, width + padding * 2, y);
 
    const path = "./cache/" + Date.now() + ".png";
    await image.writeAsync(path);

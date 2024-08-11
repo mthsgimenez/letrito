@@ -4,7 +4,7 @@ import { create } from "express-handlebars";
 import router from "./routes/router.mjs";
 import { init } from "./utility/spotify.mjs";
 
-// (async () => { await init() })();
+(async () => { await init() })();
 
 const app = express();
 const port = process.env.PORT || 3000;
