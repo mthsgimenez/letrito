@@ -1,10 +1,10 @@
 import Jimp from "jimp";
+import { searchCover } from "../utility/spotify.mjs";
 
 async function controller(req, res) {
    const artist = req.body.artist;
    const song = req.body.song;
    const verses = req.body.verses;
-   const coverArt = req.body.coverArt;
    const backgroundColor = req.body.backgroundColor;
    const whiteFont = req.body.whiteFont;
    let useWhiteFont = false;
@@ -12,12 +12,12 @@ async function controller(req, res) {
       useWhiteFont = true;
    }
 
-   if (artist == undefined || song == undefined || verses.length < 1 || coverArt == undefined || backgroundColor == undefined) {
+   if (artist == undefined || song == undefined || verses.length < 1 || backgroundColor == undefined) {
       res.sendStatus(400);
       return;
    }
 
-   const image = await generateImage(song, artist, verses, backgroundColor, coverArt, useWhiteFont);
+   const image = await generateImage(song, artist, verses, backgroundColor, useWhiteFont);
    res.type("png");
    res.attachment(image);
    res.download(image);
@@ -29,26 +29,27 @@ async function controller(req, res) {
 * @param {string} artist - Artist name
 * @param {Array.string} verses - Array of strings containing the selected verses
 * @param {string} color - Background color for the image in hexadecimal
-* @param {string} coverArt - Url to a cover art
 * @param {boolean} [white=false] white - Set to true to make font white
 * @returns {string} path - Path on the filesystem to the generated image
 */
-async function generateImage(song, artist, verses, color, coverArt, white = false) {
+async function generateImage(song, artist, verses, color, white = false) {
    const image = new Jimp(1000, 1000, color);
 
    const coverArtSize = 85;
    const padding = 15;
    const minWidth = 460;
 
-   const coverPromise = await Jimp.read(coverArt);
-   const maskPromise = await Jimp.read("./src/resources/mask.png");
+   const coverUrl = await searchCover(`${artist} ${song}`);
+
+   const coverPromise = Jimp.read(coverUrl);
+   const maskPromise = Jimp.read("./src/resources/mask.png");
 
    let fontColor = (white) ? "White" : "Black";
-   const boldFontPromise = await Jimp.loadFont(`./src/resources/InterBold${fontColor}.fnt`);
-   const regularFontPromise = await Jimp.loadFont(`./src/resources/InterRegular${fontColor}.fnt`);
-   const smallFontPromise = await Jimp.loadFont(`./src/resources/Inter20pt${fontColor}.fnt`);
+   const boldFontPromise = Jimp.loadFont(`./src/resources/InterBold${fontColor}.fnt`);
+   const regularFontPromise = Jimp.loadFont(`./src/resources/InterRegular${fontColor}.fnt`);
+   const smallFontPromise = Jimp.loadFont(`./src/resources/Inter20pt${fontColor}.fnt`);
 
-   const logoPromise = await Jimp.read(`./src/resources/github${fontColor}.png`);
+   const logoPromise = Jimp.read(`./src/resources/github${fontColor}.png`);
 
    const [cover, mask, boldFont, regularFont, smallFont, logo] = await Promise.all([coverPromise, maskPromise, boldFontPromise, regularFontPromise, smallFontPromise, logoPromise]);
 

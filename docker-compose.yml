@@ -4,5 +4,7 @@ services:
     environment:
       NODE_ENV: development
       PORT: ${PORT}
+      SPOTIFY_CLIENT_SECRET: ${SPOTIFY_CLIENT_SECRET}
+      SPOTIFY_CLIENT_ID: ${SPOTIFY_CLIENT_ID}
     ports:
       - "${PORT}:${PORT}"
