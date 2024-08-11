@@ -1,16 +1,21 @@
+<h1>Results</h1>
 {{#if results}}
    {{#each results}}
-      <div>
          <form action="/lyrics" method="post">
             <input type="hidden" name="path" id="path" value="{{this.path}}">
             <input type="hidden" name="artist" id="artist" value="{{this.artist_names}}">
             <input type="hidden" name="song" id="song" value="{{this.title}}">
             <input type="hidden" name="coverArt" id="coverArt" value="{{this.header_image_url}}">
-            <button type="submit">{{this.full_title}}</button>
+            <button type="submit" class="result">
+               <img src="{{this.header_image_url}}" width="100" height="100">
+               <div class="innerContainer">
+                  <h1>{{this.title}}</h1>
+                  <p>{{this.artist_names}}</p>
+               </div>
+            </button>
          </form>
-      </div>
    {{/each}}
 {{/if}}
 {{#unless results}}
-   <p>No results found</p>
+   <p>No results</p>
 {{/unless}}
