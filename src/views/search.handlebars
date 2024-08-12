@@ -19,3 +19,35 @@
 {{#unless results}}
    <p>No results</p>
 {{/unless}}
+<style>
+.result {
+   border: none;
+   background-color: white;
+   margin: 5px;
+   padding: 5px;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   width: 100%;
+   cursor: pointer;
+}
+
+.result:hover {
+   background-color: var(--gray);
+}
+
+.innerContainer {
+   width: 100%;
+   display: flex;
+   flex-flow: column;
+   text-align: start;
+}
+
+.innerContainer h1 {
+   font-size: 23px;
+}
+
+.innerContainer p {
+   font-size: 17px;
+}
+</style>

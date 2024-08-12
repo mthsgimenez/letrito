@@ -1,20 +1,139 @@
+<div id="prev">
+   <img id="cover" src="{{coverArt}}" width="100" height="100">
+   <div id="innerContainer">
+      <h1>{{song}}</h1>
+      <p>{{artist}}</p>
+   </div>
+</div>
 <form action="/image" method="post">
-      <input type="hidden" name="song" value="{{{song}}}">
-      <input type="hidden" name="artist" value="{{artist}}">
-      <input type="hidden" name="coverArt" value="{{coverArt}}">
-   {{#each lyrics}}
+   <input type="hidden" name="song" value="{{{song}}}">
+   <input type="hidden" name="artist" value="{{artist}}">
+
+   <div id="styleForm">
+      <div class="inner">
+         <label for="backgroundColor">Background Color:</label>
+         <input type="color" id="backgroundColor" name="backgroundColor" value="#FFFFFF" onchange="document.getElementById('prev').style['backgroundColor'] = this.value">
+      </div>
+      <div class="inner">
+         <label for="whiteFont">Font Color:</label>
+         <select name="whiteFont" id="whiteFont" onchange="changeFont(this)">
+            <option value="false" selected>Black</option>
+            <option value="true">White</option>
+         </select>
+      </div>
+   </div>
+   <div id="verses">
+      {{#each lyrics}}
       {{#if this}}
-         <input type="checkbox" id="{{@index}}" name="verses[]" value="{{this}}">
-         <label for="{{@index}}">{{this}}</label>
-         <br>
+      <input type="checkbox" id="{{@index}}" name="verses[]" value="{{this}}">
+      <button type="button" onclick="check({{@index}}, this)">{{this}}</button>
       {{/if}}
-   {{/each}}
-   <label for="backgroundColor">Background Color:</label>
-   <input type="color" id="backgroundColor" name="backgroundColor" value="#cecece">
-   <label for="whiteFont">Font Color:</label>
-   <select name="whiteFont" id="whiteFont">
-      <option value="false" selected>Black</option>
-      <option value="true">White</option>
-   </select>
-   <button type="submit">Ok</button>
+      {{/each}}
+   </div>
+   <button type="submit">Create image</button>
 </form>
+<script>
+   function check(id, button) {
+      const checkbox = document.getElementById(id);
+
+      if (checkbox.checked) {
+         checkbox.checked = false;
+         button.style["background-color"] = "white";
+      } else {
+         checkbox.checked = true;
+         button.style["background-color"] = "#dddddd";
+      }
+   }
+
+   function changeFont(elem) {
+      const color = elem.value === "true" ? "#fafaff" : "#141414";
+
+      document.querySelector("#innerContainer h1").style["color"] = color;
+      document.querySelector("#innerContainer p").style["color"] = color;
+   }
+</script>
+<style>
+#prev {
+   display: flex;
+   gap: 15px;
+   align-items: center;
+   margin-bottom: 20px;
+   padding: 10px;
+}
+
+#innerContainer {
+   color: "#141414";
+   display: flex;
+   flex-flow: column;
+}
+
+#verses {
+   width: 100%;
+   margin-top: 20px;
+   margin-bottom: 20px;
+}
+
+#verses button {
+   text-align: start;
+   width: 100%;
+   background-color: white;
+   border: none;
+   font-family: "Roboto", Times, sans-serif;
+   font-size: 16px;
+   padding: 4px;
+}
+
+#verses button:hover {
+   background-color: var(--gray);
+}
+
+#verses input[type=checkbox] {
+   display: none;
+}
+
+#styleForm {
+   display: flex;
+   flex-flow: column;
+   gap: 5px;
+   margin-left: 5px;
+}
+
+.inner {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.inner label {
+   font-size: 18px;
+   font-weight: 500;
+}
+
+.inner input[type=color] {
+   width: 60px;
+   height: 25px;
+   outline: none;
+   border: none;
+   border-radius: 4px;
+}
+
+.inner select {
+   background-color: white;
+   border: solid 1px var(--dark-gray);
+   font-size: 15px;
+   padding: 3px;
+   border-radius: 4px;
+}
+
+button[type=submit] {
+   background-color: var(--black);
+   color: #fafaff;
+   padding: 10px;
+   font-family: "Inter", Arial, sans-serif;
+   font-size: 20px;
+   border: solid 1px var(--gray);
+   cursor: pointer;
+   border-radius: 10px;
+   font-weight: bold;
+}
+</style>

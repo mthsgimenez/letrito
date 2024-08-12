@@ -1,5 +1,52 @@
-<form method="get" action="/search">
-   <label for="q">Pesquisa: </label>
-   <input type="text" name="q" id="q">
-   <button type="submit">Go</button>
-</form>
+<div id="frame">
+   <form method="get" action="/search">
+      <label for="q">Create an image from your favorite verses</label>
+      <input type="text" name="q" id="q" placeholder="Song name">
+      <button type="submit">SEARCH</button>
+   </form>
+</div>
+<style>
+   #frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   }
+
+   #frame form {
+      margin-top: 20px;
+      display: flex;
+      flex-flow: column;
+      gap: 10px;
+   }
+
+   #frame label {
+      font-weight: 400;
+      font-size: 25px;
+   }
+
+   #frame input[type=text] {
+      padding: 10px;
+      font-size: 18px;
+      font-family: "Roboto", Times, sans-serif;
+   }
+
+
+   #frame input[type=text]::placeholder {
+      color: var(--dark-gray);
+   }
+
+   #frame input[type=text]:focus {
+      outline: none;
+   }
+
+   #frame button {
+      background-color: var(--black);
+      color: #fafaff;
+      padding: 10px 0px;
+      font-family: "Inter", Arial, sans-serif;
+      font-size: 20px;
+      border: solid 1px var(--gray);
+      cursor: pointer;
+      font-weight: bold;
+   }
+</style>

@@ -3,6 +3,7 @@
 :root {
    --black: #141414;
    --gray: #ededed;
+   --dark-gray: #848484;
 }
 
 * {
@@ -40,6 +41,25 @@ header form {
    flex: 1;
 }
 
+::placeholder {
+   color: var(--dark-gray);
+   opacity: 1;
+}
+
+header form input[type=text] {
+   background-image: url("/img/magnifier.png");
+   background-repeat: no-repeat;
+   background-position: 4px 3px;
+   border: none;
+   padding: 2px;
+   box-sizing: border-box;
+   padding-left: 24px;
+}
+
+header form input[type=text]:focus {
+   outline: none;
+}
+
 #logo {
    font-size: 25px;
    text-align: center;
@@ -62,34 +82,4 @@ header form {
 #github img {
    width: 25px;
    height: 25px;
-}
-
-.result {
-   border: none;
-   background-color: white;
-   margin: 5px;
-   padding: 5px;
-   display: flex;
-   align-items: center;
-   gap: 10px;
-   width: 100%;
-}
-
-.result:hover {
-   background-color: var(--gray);
-}
-
-.innerContainer {
-   width: 100%;
-   display: flex;
-   flex-flow: column;
-   text-align: start;
-}
-
-.innerContainer h1 {
-   font-size: 23px;
-}
-
-.innerContainer p {
-   font-size: 17px;
 }
