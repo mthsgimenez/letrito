@@ -82,7 +82,7 @@ async function generateImage(song, artist, verses, color, white = false) {
    y += boldCharHeight * 2 - padding;
 
    // Watermark
-   image.print(smallFont, padding * 2 + 20, y - 4, "xspt/lyrics");
+   image.print(smallFont, padding * 2 + 20, y - 4, "xspt/letrito");
    image.composite(logo, padding, y);
    y += padding * 2 + 5;
 

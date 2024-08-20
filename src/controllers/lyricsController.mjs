@@ -12,7 +12,7 @@ async function controller(req, res) {
    const url = "https://genius.com" + path;
    
    const lyrics = await getLyrics(url);
-   res.render("lyrics", { title: "Lyrics", lyrics: lyrics, song: song, coverArt: coverArt, artist: artist });
+   res.render("lyrics", { title: "Letrito", lyrics: lyrics, song: song, coverArt: coverArt, artist: artist });
 }
 
 /**

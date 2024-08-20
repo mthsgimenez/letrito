@@ -2,9 +2,9 @@ async function controller(req, res) {
    const query = req.query.q;
    if (query != undefined) {
       const results = await searchGenius(query);
-      res.render("search", { results: results, title: "Results" });
+      res.render("search", { results: results, title: "Letrito - Results" });
    } else {
-      res.render("search", { results: [], title: "Results" });
+      res.render("search", { results: [], title: "Letrito - Results" });
    }
 }
 

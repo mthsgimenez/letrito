@@ -7,7 +7,7 @@ import imageController from "../controllers/imageController.mjs";
 const router = express.Router();
 
 router.get("/", (req, res) => {
-   res.render("home", { title: "Home" });
+   res.render("home", { title: "Letrito - Home" });
 });
 
 router.get("/search", asyncHandler(searchController));
