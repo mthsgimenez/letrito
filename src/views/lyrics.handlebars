@@ -23,6 +23,7 @@
       </div>
    </div>
    <div id="verses">
+      <h2>Select the verses:</h2>
       {{#each lyrics}}
       {{#if this}}
       <input type="checkbox" id="{{@index}}" name="verses[]" value="{{this}}">
@@ -71,6 +72,10 @@
    width: 100%;
    margin-top: 20px;
    margin-bottom: 20px;
+}
+
+#verses h2 {
+   margin-bottom: 4px;
 }
 
 #verses button {
@@ -133,7 +138,18 @@ button[type=submit] {
    font-size: 20px;
    border: solid 1px var(--gray);
    cursor: pointer;
-   border-radius: 10px;
    font-weight: bold;
+   width: 45%;
+}
+
+@media (max-width: 600px) {
+   #verses button {
+      font-size: 18px;
+      padding: 8px 4px;
+   }
+
+   button[type=submit] {
+      width: 100%;
+   }
 }
 </style>
