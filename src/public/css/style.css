@@ -83,3 +83,22 @@ header form input[type=text]:focus {
    width: 25px;
    height: 25px;
 }
+
+@media (max-width: 600px) {
+   header form input[type=text] {
+      padding: 8px 0px;
+      padding-left: 24px;
+      background-position: 4px 9px;
+   }
+
+   #github {
+      width: max-content;
+      flex: 0;
+      order: 0;
+   }
+
+   #logo {
+      padding: 0 10px;
+      order: -1;
+   }
+}
