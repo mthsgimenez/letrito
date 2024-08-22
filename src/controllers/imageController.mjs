@@ -7,17 +7,18 @@ async function controller(req, res) {
    const verses = req.body.verses;
    const backgroundColor = req.body.backgroundColor;
    const whiteFont = req.body.whiteFont;
+   const coverArt = req.body.coverArt;
    let useWhiteFont = false;
    if (whiteFont === "true") {
       useWhiteFont = true;
    }
 
-   if (artist == undefined || song == undefined || verses.length < 1 || backgroundColor == undefined) {
+   if (artist == undefined || song == undefined || verses.length < 1 || backgroundColor == undefined || coverArt == undefined) {
       res.sendStatus(400);
       return;
    }
 
-   const image = await generateImage(song, artist, verses, backgroundColor, useWhiteFont);
+   const image = await generateImage(song, artist, verses, backgroundColor, coverArt, useWhiteFont);
    res.type("png");
    res.attachment(image);
    res.download(image);
@@ -29,19 +30,18 @@ async function controller(req, res) {
 * @param {string} artist - Artist name
 * @param {Array.string} verses - Array of strings containing the selected verses
 * @param {string} color - Background color for the image in hexadecimal
+* @param {string} coverArt - Url to a cover art
 * @param {boolean} [white=false] white - Set to true to make font white
 * @returns {string} path - Path on the filesystem to the generated image
 */
-async function generateImage(song, artist, verses, color, white = false) {
+async function generateImage(song, artist, verses, color, coverArt, white = false) {
    const image = new Jimp(1000, 1000, color);
 
    const coverArtSize = 85;
    const padding = 15;
    const minWidth = 460;
 
-   const coverUrl = await searchCover(`${artist} ${song}`);
-
-   const coverPromise = Jimp.read(coverUrl);
+   const coverPromise = Jimp.read(coverArt);
    const maskPromise = Jimp.read("./src/resources/mask.png");
 
    let fontColor = (white) ? "White" : "Black";

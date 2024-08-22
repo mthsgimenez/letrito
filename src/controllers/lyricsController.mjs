@@ -1,3 +1,5 @@
+import { searchCover } from "../utility/spotify.mjs";
+
 async function controller(req, res) {
    const path = req.body.path;
    const artist = req.body.artist;
@@ -10,9 +12,13 @@ async function controller(req, res) {
    }
 
    const url = "https://genius.com" + path;
-   
-   const lyrics = await getLyrics(url);
-   res.render("lyrics", { title: "Letrito", lyrics: lyrics, song: song, coverArt: coverArt, artist: artist });
+
+   const imagePromise = searchCover(`${artist} ${song}`);
+   const lyricsPromise = getLyrics(url);
+
+   const [image, lyrics] = await Promise.all([imagePromise, lyricsPromise]);
+
+   res.render("lyrics", { title: "Letrito", lyrics: lyrics, song: song, coverArt: (image != null) ? image : coverArt, artist: artist });
 }
 
 /**
