@@ -9,6 +9,7 @@
    <input type="hidden" name="song" value="{{{song}}}">
    <input type="hidden" name="artist" value="{{artist}}">
    <input type="hidden" name="coverArt" value="{{coverArt}}">
+   <input type="hidden" id="verses" name="verses[]">
 
    <div id="styleForm">
       <div class="inner">
@@ -27,25 +28,31 @@
       <h2>Select the verses:</h2>
       {{#each lyrics}}
       {{#if this}}
-      <input type="checkbox" id="{{@index}}" name="verses[]" value="{{this}}">
-      <button type="button" onclick="check({{@index}}, this)">{{this}}</button>
+      <button type="button" onclick="this.classList.toggle('selected')">{{this}}</button>
       {{/if}}
       {{/each}}
    </div>
    <button type="submit">Create image</button>
 </form>
 <script>
-   function check(id, button) {
-      const checkbox = document.getElementById(id);
+   document.addEventListener("submit", e => {
+      if (!e.srcElement.action.includes("/image")) return;
 
-      if (checkbox.checked) {
-         checkbox.checked = false;
-         button.style["background-color"] = "white";
-      } else {
-         checkbox.checked = true;
-         button.style["background-color"] = "#dddddd";
+      e.preventDefault();
+
+      const selected = document.querySelectorAll(".selected");
+      const versesInput = document.getElementById("verses");
+
+      const verses = [];
+
+      for (let verse of selected) {
+         verses.push(verse.innerHTML);
       }
-   }
+
+      versesInput.value = verses;
+
+      e.srcElement.submit();
+   });
 
    function changeFont(elem) {
       const color = elem.value === "true" ? "#fafaff" : "#141414";
@@ -89,8 +96,14 @@
    padding: 4px;
 }
 
-#verses button:hover {
-   background-color: var(--gray);
+@media (hover: hover) {
+   #verses :not(.selected):hover {
+      background-color: var(--gray);
+   }
+}
+
+#verses .selected {
+   background-color: #dddddd;
 }
 
 #verses input[type=checkbox] {
