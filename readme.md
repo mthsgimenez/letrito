@@ -2,7 +2,7 @@
 
 Share your favorite lyrics
 
-[Site link](lyrics-ipjm.onrender.com) (Obs: Since I'm using a free host, it may take a while to load)
+[Site link](https://lyrics-ipjm.onrender.com) (Obs: Since I'm using a free host, it may take a while to load)
 
 ## Images
 
