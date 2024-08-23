@@ -50,4 +50,15 @@ async function getToken() {
    }
 }
 
-export { init, searchCover };
+async function fetchBuffer(url) {
+   const req = await fetch(url);
+
+   if (!req.ok) return null;
+   else {
+      const buffer = await req.arrayBuffer();
+
+      return buffer;
+   }
+}
+
+export { init, searchCover, fetchBuffer };

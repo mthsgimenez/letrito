@@ -1,5 +1,5 @@
 import Jimp from "jimp";
-import { searchCover } from "../utility/spotify.mjs";
+import { fetchBuffer } from "../utility/spotify.mjs";
 
 async function controller(req, res) {
    const artist = req.body.artist;
@@ -41,7 +41,9 @@ async function generateImage(song, artist, verses, color, coverArt, white = fals
    const padding = 15;
    const minWidth = 460;
 
-   const coverPromise = Jimp.read(coverArt);
+   const coverBuffer = await fetchBuffer(coverArt);
+
+   const coverPromise = Jimp.read(coverBuffer);
    const maskPromise = Jimp.read("./src/resources/mask.png");
 
    let fontColor = (white) ? "White" : "Black";
