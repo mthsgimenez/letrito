@@ -26,9 +26,7 @@ async function controller(req, res) {
    }
 
    const image = await generateImage(song, artist, verses, backgroundColor, coverArt, useWhiteFont);
-   res.type("png");
-   res.attachment(image);
-   res.download(image);
+   res.send(image);
 }
 
 /**
@@ -39,7 +37,7 @@ async function controller(req, res) {
 * @param {string} color - Background color for the image in hexadecimal
 * @param {string} coverArt - Url to a cover art
 * @param {boolean} [white=false] white - Set to true to make font white
-* @returns {string} path - Path on the filesystem to the generated image
+* @returns {string} image - base64 string of the image
 */
 async function generateImage(song, artist, verses, color, coverArt, white = false) {
    const image = new Jimp(1000, 1000, color);
@@ -106,10 +104,9 @@ async function generateImage(song, artist, verses, color, coverArt, white = fals
 
    image.crop(0, 0, width + padding * 2, y);
 
-   const path = "./cache/" + Date.now() + ".png";
-   await image.writeAsync(path);
+   const buffer = await image.getBase64Async(Jimp.MIME_PNG);
 
-   return path;
+   return buffer;
 }
 
 export default controller;
