@@ -5,7 +5,7 @@
       <p>{{artist}}</p>
    </div>
 </div>
-<form action="/image" method="post">
+<form id="imageForm" action="/image" method="post">
    <input type="hidden" name="song" value="{{{song}}}">
    <input type="hidden" name="artist" value="{{artist}}">
    <input type="hidden" name="coverArt" value="{{coverArt}}">
@@ -27,31 +27,56 @@
    <div id="verses">
       <h2>Select the verses:</h2>
       {{#each lyrics}}
-      {{#if this}}
-      <button type="button" onclick="this.classList.toggle('selected')">{{this}}</button>
-      {{/if}}
+         {{#if this}}
+            <button type="button" onclick="this.classList.toggle('selected')">{{this}}</button>
+         {{/if}}
       {{/each}}
    </div>
    <button type="submit">Create image</button>
 </form>
+<div id="popup">
+   <div id="loader"></div>
+   <div id="content">
+      <span onclick="document.getElementById('popup').style.display='none';document.getElementById('content').style.display='none';document.getElementById('loader').style.display='block'">&times;</span>
+      <img id="preview" src="">
+      <a id="download" download="letrito.png" href="">Download</a>
+   </div>
+</div>
 <script>
-   document.addEventListener("submit", e => {
-      if (!e.srcElement.action.includes("/image")) return;
+   document.addEventListener("submit", async (e) => {
+      if (e.srcElement.id != "imageForm") return;
 
       e.preventDefault();
+
+      document.getElementById("popup").style.display = "flex";
 
       const selected = document.querySelectorAll(".selected");
       const versesInput = document.getElementById("verses");
 
       const verses = [];
-
       for (let verse of selected) {
          verses.push(verse.innerHTML);
       }
-
       versesInput.value = JSON.stringify(verses);
 
-      e.srcElement.submit();
+      const formData = new FormData(document.getElementById("imageForm"));
+      const data = new URLSearchParams();
+
+      for (let pair of formData) {
+         data.append(pair[0], pair[1]);
+      }
+
+      const req = await fetch("/image", {
+         method: "POST",
+         body: data,
+      });
+
+      const image = await req.text();
+      document.getElementById("preview").src = image;
+      document.getElementById("download").href = image;
+
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("content").style.display = "flex";
    });
 
    function changeFont(elem) {
@@ -154,6 +179,76 @@ button[type=submit] {
    cursor: pointer;
    font-weight: bold;
    width: 45%;
+}
+
+#popup {
+   display: none;
+   z-index: 100;
+   overflow: auto;
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.4);
+   flex-flow: column;
+   align-items: center;
+   justify-content: center;
+}
+
+#loader {
+   border: 16px solid var(--dark-gray);
+   border-top: 16px solid white;
+   border-radius: 50%;
+   width: 60px;
+   height: 60px;
+   animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+   0% { transform: rotate(0deg); }
+   100% { transform: rotate(360deg); }
+}
+
+#content {
+   display: none;
+   padding: 0px;
+   margin: 0px;
+   gap: 10px;
+   flex-flow: column;
+   align-items: center;
+   justify-content: center;
+}
+
+#popup span {
+   position: absolute;
+   top: 10px;
+   right: 10px;
+   cursor: pointer;
+   font-size: 25px;
+   background-color: var(--black);
+   color: white;
+   border-radius: 100px;
+   padding: 0px 9px;
+}
+
+#preview {
+   border-radius: 10px;
+   max-width: 90%;
+   height: auto;
+}
+
+#download {
+   background-color: var(--black);
+   color: white;
+   font-family: "Inter", Arial, sans-serif;
+   padding: 10px 100px;
+   max-width: 90%;
+   width: max-content;
+   text-align: center;
+   text-decoration: none;
+   font-weight: bold;
+   font-size: 20px;
 }
 
 @media (max-width: 600px) {
