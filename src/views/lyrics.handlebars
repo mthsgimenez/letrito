@@ -9,7 +9,7 @@
    <input type="hidden" name="song" value="{{{song}}}">
    <input type="hidden" name="artist" value="{{artist}}">
    <input type="hidden" name="coverArt" value="{{coverArt}}">
-   <input type="hidden" id="verses" name="verses[]">
+   <input type="hidden" id="verses" name="verses">
 
    <div id="styleForm">
       <div class="inner">
@@ -49,7 +49,7 @@
          verses.push(verse.innerHTML);
       }
 
-      versesInput.value = verses;
+      versesInput.value = JSON.stringify(verses);
 
       e.srcElement.submit();
    });

@@ -4,13 +4,20 @@ import { fetchBuffer } from "../utility/spotify.mjs";
 async function controller(req, res) {
    const artist = req.body.artist;
    const song = req.body.song;
-   const verses = req.body.verses;
+   let verses = req.body.verses;
    const backgroundColor = req.body.backgroundColor;
    const whiteFont = req.body.whiteFont;
    const coverArt = req.body.coverArt;
    let useWhiteFont = false;
    if (whiteFont === "true") {
       useWhiteFont = true;
+   }
+
+   try {
+      verses = JSON.parse(verses);
+   } catch {
+      res.sendStatus(400);
+      return
    }
 
    if (artist == undefined || song == undefined || verses.length < 1 || backgroundColor == undefined || coverArt == undefined) {
