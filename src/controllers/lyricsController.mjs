@@ -34,11 +34,12 @@ async function getLyrics(url) {
       const html = await req.text();
 
       // Find json inside script tag
-      const regex = /JSON\.parse\('(.*)'\);/g;
+      const regex = /window\.__PRELOADED_STATE__ = JSON\.parse\('(.*)'\);/g;
       const match = regex.exec(html);
 
       // Get json
       let data = safeJSONParse(match[1]);
+      
       // Get lyrics inside json and strip html tags
       data = data["songPage"]["lyricsData"]["body"]["html"].replace(/<[^>]*>?/gm, '');
       // Removes annotations like "[Chorus]"
