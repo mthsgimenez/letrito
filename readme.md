@@ -1,8 +1,8 @@
 # Letrito
 
-Share your favorite lyrics
+Similar to Spotify's lyrics sharing feature, where you choose a couple verses and it creates an image.
 
-[Site link](https://lyrics-ipjm.onrender.com) (Obs: Since I'm using a free host, it may take a while to load)
+[Website link](https://lyrics-ipjm.onrender.com) (Since I'm using a free host, it may take a while to load)
 
 ## Images
 
